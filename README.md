@@ -1,0 +1,2 @@
+# bdixtester
+test bdix servers
