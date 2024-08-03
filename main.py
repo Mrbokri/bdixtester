@@ -45,7 +45,7 @@ def read_servers_from_json(file_path):
 # Function to ping a URL
 def ping_url(url):
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=1)
         if response.status_code == 200:
             return "UP"
         else:
