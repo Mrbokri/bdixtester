@@ -22,19 +22,35 @@ This project is a URL ping scanner written in Python. It reads a list of URLs fr
 
 To set up the project, follow these steps:
 
-1. **Clone the Repository**
+1. **Linux or termux installation**
 
    ```bash
-   git clone https://github.com/yourusername/your-repository.git
-   cd your-repository
+   git clone https://github.com/Mrbokri/bdixtester.git
+   cd bdixtester
+   pip install -r requirements.txt
+   python3 main.py
+   ```
+
+2. **windows installation**
+   install python
+   go to cmd and write
+      `pip install -r requirements.txt`
+   run main.py
+
+3. **pydroid or other platform  **
+    same thing
 
 
 
 
-   join t.me/unknownintellect . 
 
 
-run it in termux / pydroid/ linux 
+for any quaries . ask help at . 
+   join   [t.me/unknownintellect](https://t.me/unknownintellect)  . 
 
-for windows install python3 and run
+
+
+feel free to contribute to this repo. request commit .
+
+#savebangladeshistudents
 
