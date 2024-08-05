@@ -3,6 +3,7 @@ import requests
 import os
 import time
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Define the title
 title = "Unknown Intellect"
@@ -12,7 +13,7 @@ def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 # Function to print the title with fading effect
-def fade_in_title(text, duration=3):
+def fade_in_title(text, duration=1):
     clear_screen()
     length = len(text) + 4
     steps = 5  # Number of steps for the fading effect
@@ -28,6 +29,10 @@ def fade_in_title(text, duration=3):
 
 # Print the fading title
 fade_in_title(title)
+
+
+
+
 
 print("starting the scan")
 def read_urls_from_txt(file_path):
@@ -45,13 +50,13 @@ def read_servers_from_json(file_path):
 # Function to ping a URL
 def ping_url(url):
     try:
-        response = requests.get(url, timeout=1)
+        response = requests.get(url, timeout=5)
         if response.status_code == 200:
-            return "UP"
+            return url, "UP"
         else:
-            return "DOWN"
+            return url, "DOWN"
     except requests.exceptions.RequestException:
-        return "DOWN"
+        return url, "DOWN"
 
 # Read URLs from both text file and JSON file
 txt_file_path = 'urls.txt'
@@ -68,21 +73,32 @@ if os.path.exists(json_file_path):
     json_servers = read_servers_from_json(json_file_path)
     servers.extend(json_servers)
 
-# Ping each server URL and store the results
+# Define a function to process each server
+def process_server(server):
+    url = server['url']
+    status = ping_url(url)
+    return server, status
+
+# Ping each server URL concurrently
 total_servers = len(servers)
+up_urls = []
 
 # Open the results file in write mode
 with open('results.txt', 'w') as txt_file:
-    for index, server in enumerate(servers):
-        status = ping_url(server['url'])
+    with ThreadPoolExecutor(max_workers=15) as executor:
+        future_to_server = {executor.submit(process_server, server): server for server in servers}
         
-        # Write only the "UP" URLs to the text file
-        if status == "UP":
-            result = f"Server {server['index']} - {server['name']} ({server['category']}) at {server['url']} is {status}.\n"
-            txt_file.write(result)
-        
-        # Calculate and display progress
-        progress = (index + 1) / total_servers * 100
-        print(f"Progress: {progress:.2f}% - {server['url']} is {status}")
+        for future in as_completed(future_to_server):
+            server, (url, status) = future.result()
+            
+            # Write only the "UP" URLs to the text file
+            if status == "UP":
+                result = f"Server {server['index']} - {server['name']} ({server['category']}) at {url} is {status}.\n"
+                txt_file.write(result)
+                up_urls.append(url)
+            
+            # Calculate and display progress
+            progress = (len(up_urls)) / total_servers * 100
+            print(f"Progress: {progress:.2f}% - {url} is {status}")
 
 print("All URLs have been pinged. Only 'UP' URLs are saved in results.txt")
