@@ -25,7 +25,7 @@ To set up the project, follow these steps:
 1. **Linux or termux installation**
 
    ```bash
-   git clone https://github.com/Mrbokri/bdixtester.git
+   git clone https://github.com/mmollaharif3803/bdixtester
    cd bdixtester
    pip install -r requirements.txt
    python3 main.py
@@ -47,12 +47,10 @@ To set up the project, follow these steps:
 
 for any quaries . ask help at . 
    join   [t.me/unknownintellect](https://t.me/unknownintellect)  . 
+   Forked By t.me/BlankY3803
+   https://t.me/BlankY3803
 
 
 
 feel free to contribute to this repo. request commit .
-
-
-
-## savebangladeshistudents
 
