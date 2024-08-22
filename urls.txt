@@ -512,3 +512,8 @@ http://winneritbd.com/
 http://flashnetbd.com/
 http://fastplex.net/
 http://iflix.com/
+http://103.78.255.174
+http://103.166.193.10/ftp/
+http://103.77.252.113/ftpdata/
+http://103.145.232.246
+http://45.250.20.254/collection/
